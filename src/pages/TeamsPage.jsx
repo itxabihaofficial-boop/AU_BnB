@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Search, ArrowLeft, ArrowRight, Users, Code, Leaf, Hash } from 'lucide-react';
+import { Search, ArrowLeft, ArrowRight, Users, Code, Hash } from 'lucide-react'; // Removed Leaf if not used
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { teams } from '../data/teams';
@@ -9,10 +9,16 @@ const TeamsPage = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Search Filter Logic
+  // --- UPDATED SEARCH & FILTER LOGIC ---
   const filteredTeams = teams.filter(team => 
-    team.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    team.members.some(m => m.toLowerCase().includes(searchTerm.toLowerCase()))
+    // 1. Safety Check: Exclude the "Admin" role we added to the data
+    team.role !== 'admin' && 
+    
+    // 2. Search Logic: Check Name OR Members
+    (
+      team.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      team.members.some(m => m.toLowerCase().includes(searchTerm.toLowerCase()))
+    )
   );
 
   // Animation Variants for Staggered Effect
@@ -119,11 +125,6 @@ const TeamsPage = () => {
                     {team.name}
                   </h3>
                   
-                  {/* <div className="flex items-center gap-2 text-sm text-gray-400 mb-6 bg-white/5 w-fit px-3 py-1 rounded-full border border-white/5">
-                    <Leaf size={14} className="text-lime-400" />
-                    <span>Project: <span className="text-gray-200 font-medium">{team.project}</span></span>
-                  </div> */}
-
                   {/* Members List (Pushed to bottom) */}
                   <div className="mt-auto space-y-3 pt-4 border-t border-white/5">
                     <div className="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-widest">

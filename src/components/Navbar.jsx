@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/images/logo.jpeg'; // Import the logo image
+import logo from '../assets/images/logo.jpeg';
 
 const Navbar = () => {
   return (
@@ -34,9 +34,14 @@ const Navbar = () => {
         {/* Date / Action */}
         <div className="flex items-center gap-4">
           <span className="hidden sm:block text-emerald-500/80 font-mono text-sm">20 Nov 2025</span>
-          <button className="px-5 py-2 rounded-full border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 transition-all text-sm font-semibold">
+          
+          {/* UPDATED: Changed button to Link pointing to /login */}
+          <Link 
+            to="/login"
+            className="px-5 py-2 rounded-full border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 transition-all text-sm font-semibold"
+          >
             Sign In
-          </button>
+          </Link>
         </div>
       </div>
     </nav>
