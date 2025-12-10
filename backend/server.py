@@ -9,7 +9,7 @@ import datetime
 
 app = Flask(__name__)
 
-CORS(app, resources={r"/api/*": {"origins": ["https://au-bnb-frontend.onrender.com/"]}})
+CORS(app, resources={r"/api/*": {"origins": ["https://au-bnb-frontend.onrender.com"]}})
 
 # --- CONFIGURATION ---
 # Use absolute paths to avoid "File not found" errors
