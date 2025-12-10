@@ -25,13 +25,13 @@ const TeamDashboard = () => {
     const fetchData = async () => {
         try {
             // Check Lock
-            const lockRes = await fetch('https://au-bnb-frontend.onrender.com//api/lock-status');
+            const lockRes = await fetch('https://au-bnb-2.onrender.com/api/lock-status');
             const lockData = await lockRes.json();
             setIsLocked(lockData.isLocked);
 
             if (!lockData.isLocked) {
                 // Fetch Challenge
-                const response = await fetch(`https://au-bnb-frontend.onrender.com//api/my-challenge/${parsedUser.username}`);
+                const response = await fetch(`https://au-bnb-2.onrender.com/api/my-challenge/${parsedUser.username}`);
                 const data = await response.json();
                 setAssignedChallenge(data);
 
@@ -51,7 +51,7 @@ const TeamDashboard = () => {
 
   const fetchUploads = async (username) => {
       try {
-          const res = await fetch(`https://au-bnb-frontend.onrender.com//api/my-uploads/${username}`);
+          const res = await fetch(`https://au-bnb-2.onrender.com/api/my-uploads/${username}`);
           const data = await res.json();
           setMyUploads(data.reverse()); // Show newest first
       } catch (e) { console.error("Error fetching uploads"); }
@@ -81,7 +81,7 @@ const TeamDashboard = () => {
       formData.append('username', teamData.username); // Send username for filename generation
 
       try {
-          const res = await fetch('https://au-bnb-frontend.onrender.com//api/upload', {
+          const res = await fetch('https://au-bnb-2.onrender.com/api/upload', {
               method: 'POST',
               body: formData
           });

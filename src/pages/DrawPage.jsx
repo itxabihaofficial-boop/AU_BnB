@@ -19,7 +19,7 @@ const DrawPage = () => {
     }
     
     // 2. Load existing results from Server
-    fetch('https://au-bnb-frontend.onrender.com//api/results')
+    fetch('https://au-bnb-2.onrender.com/api/results')
       .then(res => res.json())
       .then(data => {
         if(data.length > 0) setResults(data);
@@ -31,7 +31,7 @@ const DrawPage = () => {
   const handleLuckyDraw = async () => {
     setIsDrawing(true);
     try {
-      const response = await fetch('https://au-bnb-frontend.onrender.com//api/draw', { method: 'POST' });
+      const response = await fetch('/api/draw', { method: 'POST' });
       const data = await response.json();
       
       setTimeout(() => {
@@ -52,7 +52,7 @@ const DrawPage = () => {
       }
 
       try {
-          await fetch('https://au-bnb-frontend.onrender.com//api/reset', { method: 'POST' });
+          await fetch('https://au-bnb-2.onrender.com/api/reset', { method: 'POST' });
           setResults(null); // Clear local state
       } catch (error) {
           console.error("Reset failed", error);
