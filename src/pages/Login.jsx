@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { Code2, TreeDeciduous, Sun, Cpu, Lock as LockIcon, User, ArrowLeft, Leaf } from 'lucide-react';
 
 // 1. IMPORT THE SHARED DATA
-import { teams } from '../data/teams'; 
+// import { teams } from '../data/teams'; 
 
 const Login = () => {
   const navigate = useNavigate();
@@ -22,43 +22,80 @@ const Login = () => {
     { Icon: Cpu, x: "80%", y: "60%", delay: 1, color: "text-teal-500/20" },
   ];
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    setError('');
-    setIsLoading(true);
 
-    setTimeout(() => {
-      // 2. SEARCH IN THE IMPORTED TEAMS ARRAY
-      // We look for a match in the 'teams' file we just updated
-      const foundUser = teams.find(
-        (user) => user.username === username && user.password === password
-      );
 
-      if (foundUser) {
-        // Save user data (including name: 'Eco Warriors', etc.)
-        // We map 'name' to 'teamName' to match what TeamDashboard expects, 
-        // or we update TeamDashboard to use 'name'. 
-        // Let's standardise the object we save:
-        const sessionData = {
-           teamName: foundUser.name, 
-           members: foundUser.members,
-           role: foundUser.role,
-           username: foundUser.username
-        };
 
-        localStorage.setItem('user', JSON.stringify(sessionData));
+  // inside Login.jsx
+const handleLogin = async (e) => {
+  e.preventDefault();
+  setError('');
+  setIsLoading(true);
 
-        if (foundUser.role === 'admin') {
-          navigate('/admin-dashboard');
-        } else {
-          navigate('/team-dashboard');
-        }
+  try {
+    const response = await fetch('http://localhost:5000/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      // Save user info to session
+      localStorage.setItem('user', JSON.stringify(data));
+      
+      if (data.role === 'admin') {
+        navigate('/admin-dashboard');
       } else {
-        setError('Invalid credentials. Access denied.');
-        setIsLoading(false);
+        navigate('/team-dashboard');
       }
-    }, 1500);
-  };
+    } else {
+      setError('Invalid credentials');
+    }
+  } catch (err) {
+    setError('Server connection failed');
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+  // const handleLogin = (e) => {
+  //   e.preventDefault();
+  //   setError('');
+  //   setIsLoading(true);
+
+  //   setTimeout(() => {
+  //     // 2. SEARCH IN THE IMPORTED TEAMS ARRAY
+  //     // We look for a match in the 'teams' file we just updated
+  //     const foundUser = teams.find(
+  //       (user) => user.username === username && user.password === password
+  //     );
+
+  //     if (foundUser) {
+  //       // Save user data (including name: 'Eco Warriors', etc.)
+  //       // We map 'name' to 'teamName' to match what TeamDashboard expects, 
+  //       // or we update TeamDashboard to use 'name'. 
+  //       // Let's standardise the object we save:
+  //       const sessionData = {
+  //          teamName: foundUser.name, 
+  //          members: foundUser.members,
+  //          role: foundUser.role,
+  //          username: foundUser.username
+  //       };
+
+  //       localStorage.setItem('user', JSON.stringify(sessionData));
+
+  //       if (foundUser.role === 'admin') {
+  //         navigate('/admin-dashboard');
+  //       } else {
+  //         navigate('/team-dashboard');
+  //       }
+  //     } else {
+  //       setError('Invalid credentials. Access denied.');
+  //       setIsLoading(false);
+  //     }
+  //   }, 1500);
+  // };
 
   return (
     // ... REST OF YOUR JSX REMAINS EXACTLY THE SAME AS BEFORE ...
