@@ -13,7 +13,7 @@ const TeamsPage = () => {
   // --- FETCH TEAMS FROM BACKEND ---
   useEffect(() => {
     // We use the new API endpoint we created in server.py
-    fetch('http://localhost:5000/api/teams')
+    fetch('https://au-bnb-frontend.onrender.com//api/teams')
       .then(res => res.json())
       .then(data => {
         setTeams(data);

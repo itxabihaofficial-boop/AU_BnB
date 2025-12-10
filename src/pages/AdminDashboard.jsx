@@ -15,7 +15,7 @@ const AdminDashboard = () => {
 
   // 1. Initial Load
   useEffect(() => {
-    fetch('http://localhost:5000/api/lock-status')
+    fetch('https://au-bnb-frontend.onrender.com//api/lock-status')
       .then(res => res.json())
       .then(data => setIsLocked(data.isLocked));
   }, []);
@@ -29,7 +29,7 @@ const AdminDashboard = () => {
     if (newStatus === true && !window.confirm("ARE YOU SURE? This will lock all team dashboards.")) return;
     setLoading(true);
     try {
-        const res = await fetch('http://localhost:5000/api/toggle-lock', {
+        const res = await fetch('https://au-bnb-frontend.onrender.com//api/toggle-lock', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ lock: newStatus })
@@ -43,7 +43,7 @@ const AdminDashboard = () => {
   // 2. Fetch All Submissions
   const fetchSubmissions = async () => {
       try {
-          const res = await fetch('http://localhost:5000/api/all-uploads');
+          const res = await fetch('https://au-bnb-frontend.onrender.com//api/all-uploads');
           const data = await res.json();
           // Sort by newest first
           setSubmissions(data.reverse());
@@ -155,7 +155,7 @@ const AdminDashboard = () => {
                                             <Clock size={12} /> {sub.upload_time}
                                         </div>
                                         <a 
-                                            href={`http://localhost:5000/api/download/${sub.filename}`} 
+                                            href={`https://au-bnb-frontend.onrender.com//api/download/${sub.filename}`} 
                                             className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-bold flex items-center gap-2 transition-colors shadow-lg shadow-blue-900/20"
                                         >
                                             <Download size={16} /> Download
