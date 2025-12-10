@@ -8,7 +8,8 @@ import csv
 import datetime
 
 app = Flask(__name__)
-CORS(app)  # Allow React to talk to Flask
+
+CORS(app, resources={r"/api/*": {"origins": ["https://au-bnb-frontend.onrender.com/"]}})
 
 # --- CONFIGURATION ---
 # Use absolute paths to avoid "File not found" errors
